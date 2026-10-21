@@ -1,0 +1,20 @@
+# Entornos y temporales
+guias/
+version_anterior/
+Taller.pdf
+_scripts/
+*.tmp
+*.temp
+~$*.docx
+~$*.pptx
+~$*.xlsx
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs y caches
+*.log
+.vscode/
+.idea/
