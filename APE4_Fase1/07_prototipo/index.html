@@ -6,7 +6,7 @@
 <title>CaféU · Prototipo de baja fidelidad</title>
 <style>
   :root {
-    --ink: #222; --muted: #6b6b6b; --line: #9a9a9a; --soft: #f2f2f2; --bg: #e9e9e7; --white: #fff;
+    --ink: #222; --muted: #6b6b6b; --line: #b5b5b5; --soft: #f1f1f1; --soft2: #e7e7e7; --bg: #e9e9e7; --white: #fff;
     --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
     --sans: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
   }
@@ -16,118 +16,148 @@
     background-image: radial-gradient(#cfcfcc 1px, transparent 1px); background-size: 14px 14px;
   }
   .page { display: flex; gap: 28px; justify-content: center; align-items: flex-start; padding: 36px 16px; flex-wrap: wrap; }
-  .shot .page { padding: 34px 16px 18px; }
+  .shot .page { padding: 30px 22px 22px; }
   .shot .panel { display: none; }
   body.shot { background: #fff; background-image: none; }
+  svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
-  /* ---- marco de pantalla ---- */
-  .frame { width: 440px; max-width: 100%; position: relative; }
+  /* ---- marco de pantalla: teléfono ---- */
+  .frame { width: 380px; max-width: 100%; position: relative; }
   .tag {
-    position: absolute; top: -13px; left: 14px; z-index: 2; font: 11px var(--mono); background: #eee;
-    border: 1px solid var(--ink); padding: 2px 6px;
+    position: absolute; top: -14px; left: 26px; z-index: 3; font: 11px var(--mono); background: #fff;
+    border: 1px solid var(--ink); border-radius: 999px; padding: 3px 10px;
   }
-  .window { background: var(--white); border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; box-shadow: 5px 5px 0 #c9c9c9; }
-  .bar { display: flex; align-items: center; gap: 6px; padding: 8px 10px; background: #e6e6e6; border-bottom: 1.5px solid var(--ink); }
-  .dot { width: 10px; height: 10px; border: 1px solid var(--ink); border-radius: 50%; background: #fff; }
-  .url { margin-left: 10px; flex: 1; font: 11px var(--mono); color: #777; background: #fff; border: 1px solid #999; padding: 3px 8px; }
-  .screen { min-height: 560px; display: flex; flex-direction: column; }
+  .phone { background: var(--white); border: 2px solid var(--ink); border-radius: 40px; padding: 7px; box-shadow: 6px 6px 0 #cdcdcd; }
+  .window { position: relative; border: 1.5px solid var(--ink); border-radius: 32px; overflow: hidden; background: var(--white); }
+  .status { display: flex; align-items: center; justify-content: space-between; padding: 9px 22px 3px; font: 600 11px var(--sans); }
+  .notch { width: 84px; height: 18px; border-radius: 999px; background: var(--ink); }
+  .status .sig { font: 10px var(--mono); color: var(--muted); letter-spacing: 1px; }
+  .url { margin: 2px auto 0; width: max-content; max-width: 90%; font: 10px var(--mono); color: #777; background: var(--soft); border-radius: 999px; padding: 3px 12px; }
+  .screen { min-height: 740px; display: flex; flex-direction: column; }
 
   /* ---- navegación ---- */
-  .topnav { display: flex; align-items: center; gap: 4px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
-  .brand { font-weight: 700; margin-right: auto; letter-spacing: .3px; }
-  .navlink { font-size: 13px; padding: 6px 8px; border-radius: 6px; color: var(--ink); text-decoration: none; border: 1px solid transparent; }
-  .navlink.on { border-color: var(--ink); font-weight: 600; }
-  .cartbtn { font-size: 13px; padding: 6px 10px; border: 1.5px solid var(--ink); border-radius: 6px; text-decoration: none; color: var(--ink); white-space: nowrap; }
-  .head { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; padding: 14px 10px; border-bottom: 1px solid var(--line); }
-  .head h1 { margin: 0; text-align: center; font-size: 20px; font-weight: 400; }
-  .back { font-size: 22px; background: none; border: 0; cursor: pointer; color: var(--ink); width: 40px; height: 40px; }
+  .appbar { display: flex; align-items: center; gap: 10px; padding: 12px 18px 6px; }
+  .logo { width: 30px; height: 30px; border-radius: 9px; border: 1.5px solid var(--ink); display: grid; place-items: center; background: var(--soft); color: var(--ink); }
+  .logo svg.i { width: 17px; height: 17px; }
+  .brand { font-weight: 700; font-size: 18px; letter-spacing: .2px; }
+  .tabbar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1.5px solid var(--ink); background: #fafafa; padding: 6px 4px 12px; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10.5px; color: var(--muted); text-decoration: none; padding: 5px 2px; border-radius: 12px; position: relative; }
+  .tab.on { color: var(--ink); font-weight: 700; }
+  .tab.on .ico { background: var(--soft2); }
+  .tab .ico { width: 44px; height: 28px; border-radius: 999px; display: grid; place-items: center; }
+  .tab .count { position: absolute; top: 1px; right: calc(50% - 25px); min-width: 18px; height: 18px; border-radius: 999px; background: var(--ink); color: #fff; font: 700 10px var(--sans); display: grid; place-items: center; padding: 0 4px; }
+  .head { display: flex; align-items: center; gap: 6px; padding: 10px 12px 10px 8px; border-bottom: 1px solid var(--line); }
+  .head h1 { margin: 0; font-size: 18px; font-weight: 700; }
+  .back { background: var(--soft); border: 1.2px solid var(--ink); border-radius: 50%; cursor: pointer; color: var(--ink); width: 40px; height: 40px; display: grid; place-items: center; flex: none; margin-right: 6px; }
 
-  .body { padding: 18px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
-  h2 { margin: 0; font-size: 18px; }
-  .lead { margin: 0; color: var(--muted); font-size: 13px; }
-  .card { border: 1.5px solid var(--ink); border-radius: 10px; padding: 12px 14px; }
+  .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  h2 { margin: 0; font-size: 20px; }
+  .lead { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+  .card { border: 1.5px solid var(--ink); border-radius: 16px; padding: 12px 14px; }
   .card.dash { border-style: dashed; }
+  .card.fill { background: var(--soft); border-color: var(--soft2); }
   .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .item { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid #bbb; }
+  .item { display: flex; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px dashed var(--line); }
   .item:last-child { border-bottom: 0; }
-  .qty { width: 26px; height: 26px; border: 1.2px solid var(--ink); border-radius: 4px; display: grid; place-items: center; font-size: 13px; flex: none; }
+  .qty { width: 28px; height: 28px; border-radius: 50%; background: var(--soft2); display: grid; place-items: center; font-size: 12px; font-weight: 700; flex: none; }
   .name { font-weight: 600; font-size: 14px; }
   .sub { font-size: 11.5px; color: var(--muted); }
   .price { font-weight: 700; font-size: 14px; white-space: nowrap; }
-  .total { display: flex; justify-content: space-between; font-size: 15px; padding-top: 12px; border-top: 1px solid #bbb; margin-top: 2px; }
-  .total b { font-size: 18px; }
-  .ph { background: repeating-linear-gradient(45deg, #f4f4f4 0 8px, #e8e8e8 8px 16px); border: 1.2px solid var(--line); border-radius: 8px; display: grid; place-items: center; font: 11px var(--mono); color: #888; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; padding-top: 12px; border-top: 1.5px solid var(--ink); margin-top: 2px; }
+  .total b { font-size: 20px; }
+  .ph { background: repeating-linear-gradient(45deg, #f4f4f4 0 8px, #e8e8e8 8px 16px); border: 1.2px solid var(--line); border-radius: 12px; display: grid; place-items: center; font: 11px var(--mono); color: #888; }
 
-  .btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: auto; }
-  .btn { font: 600 13px var(--sans); padding: 12px 16px; border-radius: 8px; border: 1.5px solid var(--ink); background: #fff; color: var(--ink); cursor: pointer; min-height: 44px; }
+  .btns { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+  .btn { font: 600 13.5px var(--sans); padding: 12px 18px; border-radius: 999px; border: 1.5px solid var(--ink); background: #fff; color: var(--ink); cursor: pointer; min-height: 46px; }
   .btn.primary { background: var(--ink); color: #fff; }
   .btn.wide { width: 100%; }
-  .btn:disabled { background: #d8d8d8; border-color: #bdbdbd; color: #8a8a8a; cursor: not-allowed; }
+  .btn.sm { min-height: 34px; padding: 6px 10px; font-size: 12px; }
+  .btn:disabled { background: #dcdcdc; border-color: #c4c4c4; color: #8a8a8a; cursor: not-allowed; }
   .link { background: none; border: 0; text-decoration: underline; cursor: pointer; font-size: 13px; color: var(--ink); padding: 8px; }
 
-  .search { border: 1.2px solid var(--ink); border-radius: 8px; padding: 10px 12px; font-size: 13px; width: 100%; font-family: var(--sans); }
+  .search { display: flex; align-items: center; gap: 8px; background: var(--soft); border-radius: 999px; padding: 0 14px; color: var(--muted); }
+  .search input { border: 0; background: transparent; padding: 11px 0; font: 13px var(--sans); width: 100%; outline: none; color: var(--ink); }
   .chips { display: flex; gap: 8px; }
-  .chip { font-size: 12.5px; padding: 6px 12px; border-radius: 999px; border: 1.2px solid var(--ink); background: #fff; cursor: pointer; }
+  .chip { font-size: 12.5px; padding: 6px 14px; border-radius: 999px; border: 1.2px solid var(--ink); background: #fff; cursor: pointer; }
   .chip.on { background: var(--ink); color: #fff; }
-  .prod { display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center; }
-  .prod .ph { height: 54px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tile { border: 1.5px solid var(--ink); border-radius: 16px; padding: 8px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+  .tile .ph { height: 72px; border-radius: 10px; }
+  .tile .badge { position: absolute; top: 14px; left: 14px; background: #fff; }
   .soldout { opacity: .55; }
-  .badge { font: 10.5px var(--mono); border: 1px solid var(--ink); padding: 1px 5px; border-radius: 4px; }
+  .badge { font: 10px var(--mono); border: 1px solid var(--ink); padding: 1px 6px; border-radius: 999px; white-space: nowrap; }
 
-  .stepper { display: inline-flex; border: 1.2px solid var(--ink); border-radius: 6px; overflow: hidden; }
-  .stepper button { width: 36px; height: 36px; border: 0; background: #fff; font-size: 16px; cursor: pointer; }
-  .stepper span { width: 40px; display: grid; place-items: center; border-left: 1.2px solid var(--ink); border-right: 1.2px solid var(--ink); font-size: 14px; }
-  .trash { width: 36px; height: 36px; border: 1.2px solid var(--ink); border-radius: 6px; background: #fff; cursor: pointer; font-size: 15px; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .opt { display: flex; gap: 8px; }
+  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--soft); border-radius: 999px; padding: 3px; }
+  .seg button { border: 0; background: transparent; border-radius: 999px; padding: 8px; font: 13px var(--sans); cursor: pointer; color: var(--muted); }
+  .seg button.on { background: #fff; color: var(--ink); font-weight: 700; box-shadow: 0 0 0 1.2px var(--ink); }
+  .stepper { display: inline-flex; align-items: center; gap: 4px; background: var(--soft); border-radius: 999px; padding: 3px; }
+  .stepper button { width: 36px; height: 36px; border: 1.2px solid var(--ink); border-radius: 50%; background: #fff; font-size: 16px; cursor: pointer; }
+  .stepper span { width: 28px; text-align: center; font-size: 14px; font-weight: 700; }
+  .trash { width: 38px; height: 38px; border: 1.2px solid var(--ink); border-radius: 50%; background: #fff; cursor: pointer; display: grid; place-items: center; color: var(--ink); }
+  .line-ic { width: 38px; height: 38px; border-radius: 12px; background: #fff; border: 1.2px solid var(--line); display: grid; place-items: center; flex: none; }
 
   .center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .check { width: 76px; height: 76px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; font-size: 34px; background: var(--soft); }
+  .check { width: 84px; height: 84px; border-radius: 28px; border: 1.5px solid var(--ink); display: grid; place-items: center; background: var(--soft); }
+  .check svg.i { width: 40px; height: 40px; stroke-width: 2.2; }
   .eyebrow { font: 11px var(--mono); letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
-  .order-no { display: inline-flex; gap: 14px; align-items: center; border: 1.2px dashed var(--ink); padding: 8px 14px; }
-  .order-no small { font: 10px var(--mono); color: var(--muted); }
-  .order-no b { font-size: 20px; }
-  .alert { display: flex; gap: 12px; align-items: flex-start; background: var(--soft); border: 1.5px dashed var(--ink); border-radius: 10px; padding: 12px; }
-  .alert .ic { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; font-weight: 800; flex: none; background: #fff; }
+  .ticket { display: flex; align-items: center; justify-content: space-between; width: 100%; border: 1.5px dashed var(--ink); border-radius: 14px; padding: 10px 16px; position: relative; }
+  .ticket::before, .ticket::after { content: ""; position: absolute; top: 50%; width: 16px; height: 16px; margin-top: -8px; border-radius: 50%; background: #fff; border: 1.5px dashed var(--ink); }
+  .ticket::before { left: -9px; } .ticket::after { right: -9px; }
+  .ticket small { font: 10px var(--mono); color: var(--muted); }
+  .ticket b { font-size: 22px; }
+  .alert { display: flex; gap: 12px; align-items: flex-start; background: var(--soft); border-left: 5px solid var(--ink); border-radius: 12px; padding: 12px; }
+  .alert .ic { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; font-weight: 800; flex: none; background: #fff; }
 
-  .steps { display: flex; justify-content: space-between; position: relative; margin: 6px 6px 0; }
-  .steps::before { content: ""; position: absolute; top: 13px; left: 10%; right: 10%; height: 2px; background: var(--line); }
-  .step { position: relative; text-align: center; width: 33%; font-size: 12px; }
-  .step i { display: grid; place-items: center; margin: 0 auto 6px; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink); background: #fff; font-style: normal; font-size: 13px; }
-  .step.done i { background: var(--ink); color: #fff; }
-  .step.now i { background: var(--soft); outline: 3px solid #cfcfcf; }
+  .timeline { display: flex; flex-direction: column; margin: 2px 0 0 4px; }
+  .tl { display: grid; grid-template-columns: 30px 1fr; gap: 10px; position: relative; padding-bottom: 14px; font-size: 13px; }
+  .tl:last-child { padding-bottom: 0; }
+  .tl::before { content: ""; position: absolute; left: 14px; top: 28px; bottom: 0; width: 2px; background: var(--line); }
+  .tl:last-child::before { display: none; }
+  .tl i { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink); background: #fff; display: grid; place-items: center; font-style: normal; font-size: 12px; }
+  .tl i svg.i { width: 15px; height: 15px; stroke-width: 2.4; }
+  .tl.done i { background: var(--ink); color: #fff; }
+  .tl.now i { background: var(--soft); outline: 4px solid #dadada; }
+  .tl.now b { font-weight: 700; }
+  .tl .t { display: flex; flex-direction: column; justify-content: center; min-height: 28px; }
   .hist .item { padding: 10px 0; }
 
-  .sticky { margin: auto -18px -18px; padding: 12px 18px; border-top: 1.5px solid var(--ink); background: #fafafa; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .sticky { margin: auto -18px -18px; padding: 10px 18px; background: var(--soft); border-top: 1.5px solid var(--ink); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .dock { margin: auto -18px -18px; padding: 12px 18px 18px; border-top: 1.5px solid var(--ink); background: #fafafa; display: flex; flex-direction: column; gap: 10px; }
 
-  .toast { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: 13px; padding: 10px 14px; border-radius: 8px; display: none; }
-  .modal { position: absolute; inset: 39px 0 0; background: rgba(0,0,0,.28); display: none; align-items: center; justify-content: center; padding: 20px; }
-  .modal .card { background: #fff; width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 12px; }
+  .toast { position: absolute; left: 50%; top: 64px; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: 13px; padding: 10px 16px; border-radius: 999px; display: none; z-index: 5; white-space: nowrap; }
+  .modal { position: absolute; inset: 0; background: rgba(0,0,0,.30); display: none; align-items: flex-end; z-index: 4; }
+  .sheet { background: #fff; width: 100%; border-top: 1.5px solid var(--ink); border-radius: 26px 26px 0 0; padding: 10px 20px 24px; display: flex; flex-direction: column; gap: 10px; }
+  .sheet .grab { width: 42px; height: 5px; border-radius: 999px; background: var(--line); margin: 0 auto 6px; }
+  .sheet .name { font-size: 16px; }
+  .sheet .btns { margin-top: 6px; }
 
-  .panel { width: 260px; max-width: 100%; background: #fff; border: 1.5px solid var(--ink); border-radius: 10px; padding: 14px; font-size: 13px; }
+  .panel { width: 260px; max-width: 100%; background: #fff; border: 1.5px solid var(--ink); border-radius: 14px; padding: 14px; font-size: 13px; }
   .panel h3 { margin: 0 0 8px; font-size: 14px; }
   .panel p { margin: 6px 0; color: var(--muted); }
   .panel label { display: flex; gap: 8px; align-items: center; margin: 10px 0; }
   .panel a { color: var(--ink); }
   .panel ol { padding-left: 18px; margin: 6px 0; color: var(--muted); }
-  @media (max-width: 520px) { .frame { width: 100%; } .brand { font-size: 13px; } .navlink, .cartbtn { font-size: 11.5px; padding: 5px 5px; } }
+  @media (max-width: 520px) { .frame { width: 100%; } }
 </style>
 </head>
 <body>
 <div class="page">
   <div class="frame">
     <div class="tag" id="tag">Pantalla</div>
-    <div class="window">
-      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url" id="url">cafeteria.campus</span></div>
-      <div class="screen" id="screen"></div>
+    <div class="phone">
+      <div class="window">
+        <div class="status"><span>9:41</span><span class="notch"></span><span class="sig">▮▮▮ 100%</span></div>
+        <div class="url" id="url">cafeteria.campus</div>
+        <div class="screen" id="screen"></div>
+        <div class="modal" id="modal"></div>
+        <div class="toast" id="toast"></div>
+      </div>
     </div>
-    <div class="modal" id="modal"></div>
-    <div class="toast" id="toast"></div>
   </div>
 
   <aside class="panel">
     <h3>Controles del prototipo</h3>
-    <p>Prototipo de baja fidelidad del caso CaféU (APE 4 · Fase 1). Los controles de este panel no forman parte de la interfaz.</p>
+    <p>Prototipo de baja fidelidad del caso CaféU (APE 4 · Fase 1), en formato de aplicación web móvil. Los controles de este panel no forman parte de la interfaz.</p>
     <label><input type="checkbox" id="failPay"> Simular pago rechazado</label>
     <p><button class="btn" id="reset">Reiniciar prototipo</button></p>
     <p><b>Tareas para probar:</b></p>
@@ -147,6 +177,19 @@ const PRODUCTS = [
   { id: 'sand', name: 'Sánduche', cat: 'Comida', price: 2.75, desc: 'Jamón y queso', long: 'Pan de molde, jamón y queso, preparado al momento.', opts: ['Normal', 'Tostado'] },
   { id: 'empa', name: 'Empanada de queso', cat: 'Comida', price: 1.25, desc: 'Horneada', long: 'Empanada de masa de trigo rellena de queso.' },
 ];
+const ICONS = {
+  home: '<path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/>',
+  cup: '<path d="M4 9h13v4a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6zM17 10.5h1.5a2.5 2.5 0 0 1 0 5H16M8 3v3M12 3v3"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  bag: '<path d="M5 8h14l-1.2 13H6.2zM9 8V6.5a3 3 0 0 1 6 0V8"/>',
+  trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>',
+  back: '<path d="M20 12H5M11 5l-7 7 7 7"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+  pin: '<path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  card: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+};
+const ic = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
 const $ = s => document.querySelector(s);
 const money = n => '$' + n.toFixed(2);
 const params = new URLSearchParams(location.search);
@@ -170,58 +213,67 @@ const prod = id => PRODUCTS.find(p => p.id === id);
 const count = list => list.reduce((a, x) => a + x.qty, 0);
 const sum = list => list.reduce((a, x) => a + x.qty * prod(x.id).price, 0);
 
-function topnav(active) {
+// Pantallas principales: marca arriba y barra de pestañas abajo (zona del pulgar).
+function appbar() {
+  return `<header class="appbar"><a class="logo" href="#inicio" aria-label="CaféU, ir al inicio">${ic('cup')}</a><span class="brand">CaféU</span></header>`;
+}
+function tabbar(active) {
   const n = count(state.cart);
-  return `<nav class="topnav" aria-label="Navegación principal">
-    <span class="brand">CaféU</span>
-    <a class="navlink ${active === 'inicio' ? 'on' : ''}" href="#inicio">Inicio</a>
-    <a class="navlink ${active === 'menu' ? 'on' : ''}" href="#menu">Menú</a>
-    <a class="navlink hide-s ${active === 'estado' ? 'on' : ''}" href="#estado">Mis pedidos</a>
-    <a class="cartbtn" href="#resumen" aria-label="Mi pedido, ${n} productos">Mi pedido · ${n}</a>
+  const tab = (id, href, icon, label, extra = '') => `<a class="tab ${active === id ? 'on' : ''}" href="#${href}"${extra}><span class="ico">${icon}</span>${label}</a>`;
+  return `<nav class="tabbar" aria-label="Navegación principal">
+    ${tab('inicio', 'inicio', ic('home'), 'Inicio')}
+    ${tab('menu', 'menu', ic('cup'), 'Menú')}
+    ${tab('estado', 'estado', ic('clock'), 'Mis pedidos')}
+    ${tab('resumen', 'resumen', ic('bag'), 'Mi pedido · ' + n, ` aria-label="Mi pedido, ${n} productos"`).replace('</a>', `<span class="count">${n}</span></a>`)}
   </nav>`;
 }
 function head(title, back) {
-  return `<header class="head"><button class="back" aria-label="Volver" onclick="go('${back}')">←</button><h1>${title}</h1><span></span></header>`;
+  return `<header class="head"><button class="back" aria-label="Volver" onclick="go('${back}')">${ic('back')}</button><h1>${title}</h1></header>`;
 }
 
 const VIEWS = {
   inicio() {
     const o = state.order;
-    return { tag: 'W1 · Inicio', url: 'cafeteria.campus / inicio', html: topnav('inicio') + `
+    return { tag: 'W1 · Inicio', url: 'cafeteria.campus / inicio', html: appbar() + `
       <div class="body">
-        <div class="ph" style="height:120px">[ imagen de la cafetería ]</div>
-        <h2>Pide antes de llegar</h2>
-        <p class="lead">Consulta el menú de hoy, arma tu pedido y retíralo sin hacer fila.</p>
-        <button class="btn primary wide" onclick="go('menu')">Ver menú</button>
-        ${o ? `<div class="card dash row"><div><div class="name">Pedido en curso ${o.no}</div><div class="sub">En preparación · listo en 10 minutos</div></div><button class="btn" onclick="go('estado')">Ver estado</button></div>` : ''}
-        <div class="card row"><div><div class="name">Horario de atención</div><div class="sub">Lunes a viernes · 07:00 – 18:00</div></div><span class="sub">Edificio central</span></div>
-      </div>` };
+        <div class="card fill" style="display:flex;flex-direction:column;gap:12px;padding:12px">
+          <div class="ph" style="height:150px;background-color:#fff">[ imagen de la cafetería ]</div>
+          <h2>Pide antes de llegar</h2>
+          <p class="lead">Consulta el menú de hoy, arma tu pedido y retíralo sin hacer fila.</p>
+          <button class="btn primary wide" onclick="go('menu')">Ver menú</button>
+        </div>
+        ${o ? `<div class="card dash row"><div><div class="name">Pedido en curso ${o.no}</div><div class="sub">En preparación · listo en 10 minutos</div></div><button class="btn sm" onclick="go('estado')">Ver estado</button></div>` : ''}
+        <div class="card row" style="justify-content:flex-start;gap:12px"><span class="line-ic">${ic('clock')}</span><div style="flex:1"><div class="name">Horario de atención</div><div class="sub">Lunes a viernes · 07:00 – 18:00</div></div><span class="sub">Edificio central</span></div>
+      </div>` + tabbar('inicio') };
   },
   menu() {
     const list = PRODUCTS.filter(p => (state.filter === 'Todo' || p.cat === state.filter) && p.name.toLowerCase().includes(state.query.toLowerCase()));
     const n = count(state.cart);
-    return { tag: 'W2 · Menú', url: 'cafeteria.campus / menu', html: topnav('menu') + `
+    return { tag: 'W2 · Menú', url: 'cafeteria.campus / menu', html: appbar() + `
       <div class="body">
         <h2>Menú de hoy</h2>
-        <input class="search" id="q" placeholder="Buscar producto…" value="${state.query}" aria-label="Buscar producto">
+        <label class="search">${ic('search')}<input id="q" placeholder="Buscar producto…" value="${state.query}" aria-label="Buscar producto"></label>
         <div class="chips" role="group" aria-label="Filtrar por categoría">
           ${['Todo', 'Bebidas', 'Comida'].map(c => `<button class="chip ${state.filter === c ? 'on' : ''}" onclick="setFilter('${c}')">${c}</button>`).join('')}
         </div>
-        ${list.length ? list.map(p => `<div class="card prod ${p.soldout ? 'soldout' : ''}">
+        ${list.length ? `<div class="grid">${list.map(p => `<div class="tile ${p.soldout ? 'soldout' : ''}">
             <div class="ph">img</div>
-            <div><div class="name">${p.name} ${p.soldout ? '<span class="badge">AGOTADO</span>' : ''}</div><div class="sub">${p.desc} · ${money(p.price)}</div></div>
-            <button class="btn" onclick="go('detalle/${p.id}')">Ver detalle</button>
-          </div>`).join('') : `<p class="lead">No encontramos productos con «${state.query}». Prueba con otra palabra.</p>`}
-        ${n ? `<div class="sticky"><span><b>${n} producto${n > 1 ? 's' : ''}</b> · ${money(sum(state.cart))}</span><button class="btn primary" onclick="go('resumen')">Ver mi pedido</button></div>` : ''}
-      </div>` };
+            ${p.soldout ? '<span class="badge">AGOTADO</span>' : ''}
+            <div class="name">${p.name}</div>
+            <div class="row"><span class="sub">${p.desc}</span></div>
+            <div class="price">${money(p.price)}</div>
+            <button class="btn sm" onclick="go('detalle/${p.id}')">Ver detalle</button>
+          </div>`).join('')}</div>` : `<p class="lead">No encontramos productos con «${state.query}». Prueba con otra palabra.</p>`}
+        ${n ? `<div class="sticky"><span><b>${n} producto${n > 1 ? 's' : ''}</b> · ${money(sum(state.cart))}</span><button class="btn primary sm" style="min-height:40px;padding:8px 16px" onclick="go('resumen')">Ver mi pedido</button></div>` : ''}
+      </div>` + tabbar('menu') };
   },
   detalle(id) {
     const p = prod(id) || PRODUCTS[0];
-    const opts = p.opts ? `<div><div class="sub" style="margin-bottom:6px">Opción</div><div class="opt">${p.opts.map((o, i) => `<button class="chip ${state.detailOpt === i ? 'on' : ''}" onclick="state.detailOpt=${i};render()">${o}</button>`).join('')}</div></div>` : '';
+    const opts = p.opts ? `<div><div class="sub" style="margin-bottom:6px">Opción</div><div class="seg">${p.opts.map((o, i) => `<button class="${state.detailOpt === i ? 'on' : ''}" onclick="state.detailOpt=${i};render()">${o}</button>`).join('')}</div></div>` : '';
     return { tag: 'W3 · Detalle del producto', url: 'cafeteria.campus / menu / ' + p.id, html: head(p.name, 'menu') + `
       <div class="body">
-        <div class="ph" style="height:150px">[ foto del producto ]</div>
-        <div class="row"><h2>${p.name}</h2><span class="price" style="font-size:18px">${money(p.price)}</span></div>
+        <div class="ph" style="height:190px;border-radius:18px">[ foto del producto ]</div>
+        <div class="row"><h2>${p.name}</h2><span class="price" style="font-size:20px">${money(p.price)}</span></div>
         <p class="lead">${p.long}</p>
         ${p.soldout ? `<div class="alert"><span class="ic">!</span><div><div class="name">Producto agotado</div><div class="sub">Vuelve más tarde o elige otro producto del menú.</div></div></div>
           <div class="btns"><button class="btn wide" onclick="go('menu')">Volver al menú</button></div>` : `
@@ -236,12 +288,16 @@ const VIEWS = {
     return { tag: 'W4 · Resumen del pedido (Pantalla 1)', url: 'cafeteria.campus / pedidos', html: head('Confirmar Pedido', 'menu') + `
       <div class="body">
         ${state.payError ? `<div class="alert"><span class="ic">!</span><div><div class="name">No se pudo procesar el pago</div><div class="sub">Tu pedido se conserva. Revisa el método de pago e inténtalo de nuevo.</div></div></div>` : ''}
+        <div class="sub">Tu pedido</div>
         <div class="card">
           ${state.cart.map(x => { const p = prod(x.id); return `<div class="item"><span class="qty">${x.qty}</span><div style="flex:1"><div class="name">${p.name}</div><div class="sub">${p.desc}</div></div><span class="price">${money(p.price * x.qty)}</span></div>`; }).join('')}
           <div class="total"><span>Total</span><b>${money(sum(state.cart))}</b></div>
         </div>
-        <div class="card dash row"><div><div class="name">Retiro en cafetería</div><div class="sub">Edificio central</div></div><div style="text-align:right"><div class="name">Pago</div><div class="sub">Tarjeta universitaria</div></div></div>
-        <div class="btns"><button class="btn" onclick="startEdit()">Editar Pedido</button><button class="btn primary" onclick="pay()">${state.payError ? 'Reintentar pago' : 'Confirmar y Pagar'}</button></div>
+        <div class="card fill" style="display:flex;flex-direction:column;gap:10px">
+          <div class="row" style="justify-content:flex-start;gap:12px"><span class="line-ic">${ic('pin')}</span><div><div class="name">Retiro en cafetería</div><div class="sub">Edificio central</div></div></div>
+          <div class="row" style="justify-content:flex-start;gap:12px"><span class="line-ic">${ic('card')}</span><div><div class="name">Pago</div><div class="sub">Tarjeta universitaria</div></div></div>
+        </div>
+        <div class="dock"><button class="btn primary wide" onclick="pay()">${state.payError ? 'Reintentar pago' : 'Confirmar y Pagar'}</button><button class="btn wide" onclick="startEdit()">Editar Pedido</button></div>
       </div>` };
   },
   modificar() {
@@ -251,62 +307,63 @@ const VIEWS = {
     const changed = JSON.stringify(d) !== JSON.stringify(state.cart);
     return { tag: 'W5 · Modificar pedido (Pantalla 2B)', url: 'cafeteria.campus / pedidos / editar', html: head('Modificar Pedido', 'cancelEdit') + `
       <div class="body">
-        <div class="grid2">
-          ${d.map((x, i) => { const p = prod(x.id); return `<div class="card" style="display:flex;flex-direction:column;gap:10px">
-            <div class="row"><div><div class="name">${p.name}</div><div class="sub">${money(p.price)} c/u</div></div><button class="trash" aria-label="Eliminar ${p.name}" onclick="askRemove(${i})">🗑</button></div>
+        <div class="card" style="padding:4px 14px">
+          ${d.map((x, i) => { const p = prod(x.id); return `<div class="item" style="flex-wrap:wrap">
+            <div style="flex:1"><div class="name">${p.name}</div><div class="sub">${money(p.price)} c/u</div></div>
             <div class="stepper"><button aria-label="Disminuir" onclick="editQty(${i},-1)">−</button><span>${x.qty}</span><button aria-label="Aumentar" onclick="editQty(${i},1)">+</button></div>
+            <button class="trash" aria-label="Eliminar ${p.name}" onclick="askRemove(${i})">${ic('trash')}</button>
           </div>`; }).join('')}
         </div>
-        <div class="total"><span>Nuevo total</span><b>${money(sum(d))}</b></div>
-        <div class="btns"><button class="btn primary" ${changed ? '' : 'disabled'} onclick="saveEdit()">Guardar Cambios</button></div>
+        <p class="lead">Ajusta las cantidades o quita productos. Los cambios se aplican al guardar.</p>
+        <div class="dock"><div class="row"><span>Nuevo total</span><b style="font-size:20px">${money(sum(d))}</b></div><button class="btn primary wide" ${changed ? '' : 'disabled'} onclick="saveEdit()">Guardar Cambios</button></div>
       </div>` };
   },
   vacio(from) {
     return { tag: 'Estado · Pedido vacío', url: 'cafeteria.campus / pedidos', html: head(from === 'modificar' ? 'Modificar Pedido' : 'Mi pedido', 'menu') + `
       <div class="body center" style="justify-content:center">
-        <div class="ph" style="width:90px;height:70px">bolsa</div>
+        <div class="ph" style="width:104px;height:104px;border-radius:50%">bolsa</div>
         <h2>Tu pedido está vacío</h2>
         <p class="lead">Agrega productos desde el menú para continuar.</p>
-        <button class="btn primary" onclick="emptyBack()">Volver al menú</button>
+        <button class="btn primary" style="padding:12px 28px" onclick="emptyBack()">Volver al menú</button>
       </div>` };
   },
   confirmacion() {
     const o = state.order;
     if (!o) return VIEWS.resumen();
     return { tag: 'W6 · Confirmación de compra (Pantalla 2A)', url: 'cafeteria.campus / pedidos / ' + o.no.slice(1), html: `
-      <div class="body center" style="padding-top:34px">
-        <div class="check">✓</div>
+      <div class="body center" style="padding-top:40px">
+        <div class="check">${ic('check')}</div>
         <div class="eyebrow">Pago aprobado</div>
-        <h2 style="font-size:24px;font-weight:400">¡Pedido Confirmado!</h2>
+        <h2 style="font-size:26px">¡Pedido Confirmado!</h2>
         <p class="lead">Tu pedido estará listo en <b>10 minutos</b></p>
-        <div class="order-no"><small>N.º DE PEDIDO</small><b>${o.no}</b></div>
-        <div class="card" style="width:100%;text-align:left">
+        <div class="ticket"><small>N.º DE PEDIDO</small><b>${o.no}</b></div>
+        <div class="card fill" style="width:100%;text-align:left">
           ${o.items.map(x => `<div class="row sub" style="padding:3px 0"><span>${x.qty} × ${prod(x.id).name}</span><span>${money(prod(x.id).price * x.qty)}</span></div>`).join('')}
-          <div class="row" style="padding-top:6px"><b>Total pagado</b><b>${money(o.total)}</b></div>
+          <div class="row" style="padding-top:8px;margin-top:6px;border-top:1px dashed var(--line)"><b>Total pagado</b><b>${money(o.total)}</b></div>
         </div>
-        <button class="btn primary wide" onclick="go('estado')">Ver Estado del Pedido</button>
-        <button class="link" onclick="go('inicio')">Volver al inicio</button>
+        <div class="btns" style="width:100%"><button class="btn primary wide" onclick="go('estado')">Ver Estado del Pedido</button>
+        <button class="link" onclick="go('inicio')">Volver al inicio</button></div>
       </div>` };
   },
   estado() {
     const o = state.order;
     const st = o ? o.step : 0;
     const steps = ['Recibido', 'En preparación', 'Listo para retirar'];
-    return { tag: 'W7 · Estado del pedido', url: 'cafeteria.campus / mis-pedidos', html: topnav('estado') + `
+    const notes = ['Pago aprobado', 'Tiempo estimado: 10 minutos', 'Retiro: Edificio central'];
+    return { tag: 'W7 · Estado del pedido', url: 'cafeteria.campus / mis-pedidos', html: appbar() + `
       <div class="body">
         <h2>Mis pedidos</h2>
-        ${o ? `<div class="card" style="display:flex;flex-direction:column;gap:12px">
-            <div class="row"><div><div class="sub">Pedido actual</div><div class="name" style="font-size:18px">${o.no}</div></div><span class="badge">${steps[st].toUpperCase()}</span></div>
-            <div class="steps">${steps.map((s, i) => `<div class="step ${i < st ? 'done' : i === st ? 'now' : ''}"><i>${i < st ? '✓' : i + 1}</i>${s}</div>`).join('')}</div>
-            <div class="row sub"><span>Tiempo estimado: 10 minutos</span><span>Retiro: Edificio central</span></div>
+        ${o ? `<div class="card" style="display:flex;flex-direction:column;gap:14px">
+            <div class="row"><div><div class="sub">Pedido actual</div><div class="name" style="font-size:20px">${o.no}</div></div><span class="badge">${steps[st].toUpperCase()}</span></div>
+            <div class="timeline">${steps.map((s, i) => `<div class="tl ${i < st ? 'done' : i === st ? 'now' : ''}"><i>${i < st ? ic('check') : i + 1}</i><div class="t"><b style="font-weight:${i === st ? 700 : 400}">${s}</b><span class="sub">${notes[i]}</span></div></div>`).join('')}</div>
           </div>` : `<div class="card dash"><div class="name">No tienes pedidos en curso</div><div class="sub">Cuando confirmes un pedido verás aquí su estado.</div></div>`}
-        <div class="sub" style="margin-top:4px">Historial</div>
-        <div class="card hist">
+        <div class="sub" style="margin-top:2px">Historial</div>
+        <div class="card hist" style="padding:2px 14px">
           <div class="item"><div style="flex:1"><div class="name">#A11 · 1 Capuchino</div><div class="sub">Ayer · Retirado</div></div><span class="price">$2.00</span></div>
           <div class="item"><div style="flex:1"><div class="name">#A03 · 2 Empanadas de queso</div><div class="sub">Lunes · Retirado</div></div><span class="price">$2.50</span></div>
         </div>
         <div class="btns"><button class="btn wide" onclick="go('menu')">Volver al menú</button></div>
-      </div>` };
+      </div>` + tabbar('estado') };
   },
 };
 
@@ -337,7 +394,7 @@ function editQty(i, d) { const x = state.draft[i]; x.qty = Math.max(1, Math.min(
 function askRemove(i) {
   const p = prod(state.draft[i].id);
   modal(`<div class="name">¿Eliminar ${p.name} del pedido?</div><div class="sub">Podrás volver a agregarlo desde el menú.</div>
-    <div class="btns"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" onclick="removeItem(${i})">Eliminar</button></div>`);
+    <div class="btns"><button class="btn primary wide" onclick="removeItem(${i})">Eliminar</button><button class="btn wide" onclick="closeModal()">Cancelar</button></div>`);
 }
 function removeItem(i) { state.draft.splice(i, 1); closeModal(); render(); }
 function saveEdit() { state.cart = state.draft; state.draft = null; toast('Cambios guardados'); go('resumen'); }
@@ -345,7 +402,7 @@ function cancelEdit() {
   const changed = state.draft && JSON.stringify(state.draft) !== JSON.stringify(state.cart);
   if (!changed) { state.draft = null; return go('resumen'); }
   modal(`<div class="name">¿Descartar los cambios?</div><div class="sub">Tu pedido quedará como estaba antes de editarlo.</div>
-    <div class="btns"><button class="btn" onclick="closeModal()">Seguir editando</button><button class="btn primary" onclick="state.draft=null;closeModal();go('resumen')">Descartar</button></div>`);
+    <div class="btns"><button class="btn primary wide" onclick="state.draft=null;closeModal();go('resumen')">Descartar</button><button class="btn wide" onclick="closeModal()">Seguir editando</button></div>`);
 }
 function emptyBack() { if (state.draft) { state.cart = []; state.draft = null; } go('menu'); }
 function pay() {
@@ -355,7 +412,8 @@ function pay() {
   state.cart = [];
   go('confirmacion');
 }
-function modal(html) { const m = $('#modal'); m.innerHTML = `<div class="card">${html}</div>`; m.style.display = 'flex'; }
+// Las confirmaciones se muestran como hoja inferior, cerca del pulgar.
+function modal(html) { const m = $('#modal'); m.innerHTML = `<div class="sheet" role="dialog"><div class="grab"></div>${html}</div>`; m.style.display = 'flex'; }
 function closeModal() { $('#modal').style.display = 'none'; }
 let tt;
 function toast(t) { const el = $('#toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(tt); tt = setTimeout(() => el.style.display = 'none', 1600); }
